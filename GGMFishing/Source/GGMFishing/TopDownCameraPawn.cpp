@@ -18,7 +18,7 @@ ATopDownCameraPawn::ATopDownCameraPawn()
 	/*Camera Settings*/
 	CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
 	CameraBoom->SetupAttachment(RootComponent);
-	CameraBoom->TargetArmLength = 800.f;
+	CameraBoom->TargetArmLength = 600.f;
 	CameraBoom->SetUsingAbsoluteRotation(true);
 	CameraBoom->SetWorldRotation(FRotator(-45.f, 0.f, 0.f));
 	CameraBoom->bDoCollisionTest = false;

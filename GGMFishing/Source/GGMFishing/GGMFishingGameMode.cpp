@@ -3,6 +3,7 @@
 #include "GGMFishingGameMode.h"
 #include "TopDownCameraPawn.h"
 #include "UObject/ConstructorHelpers.h"
+#include "Engine/LevelScriptActor.h"
 
 AGGMFishingGameMode::AGGMFishingGameMode()
 {
