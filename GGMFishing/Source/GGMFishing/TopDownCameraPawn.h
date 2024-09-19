@@ -43,6 +43,12 @@ private:
 	UPROPERTY()
 	FVector MoveVector;
 
+	UPROPERTY(BlueprintReadWrite, meta=(AllowPrivateAccess="true"))
+	FVector MoveableAreaMin;
+
+	UPROPERTY(BlueprintReadWrite, meta=(AllowPrivateAccess="true"))
+	FVector MoveableAreaMax;
+
 	UPROPERTY()
 	float Speed;
 };

@@ -15,6 +15,9 @@ ATopDownCameraPawn::ATopDownCameraPawn()
 	Speed = 500.f;
 	MoveVector = FVector(0.f, 0.f, 0.f);
 
+	MoveableAreaMin = FVector(-400.f, -600.f, 0.f);
+	MoveableAreaMax = FVector(400.f, 600.f, 800.f);
+
 	/*Camera Settings*/
 	CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
 	CameraBoom->SetupAttachment(RootComponent);
@@ -63,6 +66,8 @@ void ATopDownCameraPawn::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 	FVector NextLocation = GetActorLocation() + MoveVector * Speed * DeltaTime;
+	NextLocation.X = FMath::Clamp(NextLocation.X, MoveableAreaMin.X, MoveableAreaMax.X);
+	NextLocation.Y = FMath::Clamp(NextLocation.Y, MoveableAreaMin.Y, MoveableAreaMax.Y);
 	SetActorLocation(NextLocation);
 }
 
