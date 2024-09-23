@@ -13,6 +13,7 @@ class GGMFISHING_API ATopDownCameraPawn : public APawn
 
 public:
 	ATopDownCameraPawn();
+	virtual ~ATopDownCameraPawn() {};
 
 protected:
 	virtual void BeginPlay() override;
@@ -26,7 +27,18 @@ private:
 	void Move(const struct FInputActionValue& Value);
 	void CompleteMove(const struct FInputActionValue& Value);
 
+	void Interact(const struct FInputActionValue& Value);
+	void SelectInteraction();
+
+	UFUNCTION()
+	virtual void HandleOverlapBegin(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+	UFUNCTION()
+	virtual void HandleOverlapEnd(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
+
 private:
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Capsule, meta = (AllowPrivateAccess="true"))
+	TObjectPtr<class USphereComponent> Sphere;
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess="true"))
 	TObjectPtr<class USpringArmComponent> CameraBoom;
 
@@ -39,7 +51,11 @@ private:
 	UPROPERTY(VisibleAnywhere, Category = Input)
 	TObjectPtr<class UInputAction> MoveAction;
 
+	UPROPERTY(VisibleAnywhere, Category = Input)
+	TObjectPtr<class UInputAction> InteractAction;
+
 private:
+	// Movement
 	UPROPERTY()
 	FVector MoveVector;
 
@@ -51,4 +67,11 @@ private:
 
 	UPROPERTY()
 	float Speed;
+
+	// Interaction
+	UPROPERTY()
+	TObjectPtr<class AInteractable> Interaction;
+
+	UPROPERTY()
+	TArray<class AInteractable*> Interactables;
 };
