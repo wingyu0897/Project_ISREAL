@@ -103,8 +103,23 @@ void ATopDownCameraPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputC
 	}
 }
 
+void ATopDownCameraPawn::MoveCameraAttach(USceneComponent* InParent)
+{
+	if (InParent != nullptr)
+	{
+		FAttachmentTransformRules AttachmentRules = FAttachmentTransformRules(EAttachmentRule::KeepRelative, EAttachmentRule::KeepRelative, EAttachmentRule::KeepRelative, true);
+		TopDownCamera->AttachToComponent(InParent, AttachmentRules);
+	}
+	else
+	{
+		TopDownCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName);
+	}
+}
+
 void ATopDownCameraPawn::Move(const FInputActionValue& Value)
 {
+	if (!bIsMoveable) return;
+
 	FVector2D MovementVector = Value.Get<FVector2D>();
 	MoveVector = FVector(MovementVector.Y, MovementVector.X, 0.f);
 	MoveVector.Normalize();
@@ -119,7 +134,7 @@ void ATopDownCameraPawn::Interact(const FInputActionValue& Value)
 {
 	if (Interaction == nullptr) return;
 
-	Interaction->Interact();
+	Interaction->Interact(this);
 }
 
 void ATopDownCameraPawn::SelectInteraction()

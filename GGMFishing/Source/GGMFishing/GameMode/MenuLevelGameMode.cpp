@@ -6,5 +6,6 @@
 
 AMenuLevelGameMode::AMenuLevelGameMode()
 {
+	DefaultPawnClass = nullptr;
 	// Nothing
 }

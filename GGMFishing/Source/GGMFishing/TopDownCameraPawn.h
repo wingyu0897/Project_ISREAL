@@ -20,8 +20,10 @@ protected:
 
 public:	
 	virtual void Tick(float DeltaTime) override;
-
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
+	virtual void MoveCameraAttach(USceneComponent* InParent);
+	virtual void SetMoveable(bool bInMoveable) { bIsMoveable = bInMoveable; }
 
 private:
 	void Move(const struct FInputActionValue& Value);
@@ -58,20 +60,18 @@ private:
 	// Movement
 	UPROPERTY()
 	FVector MoveVector;
-
 	UPROPERTY(BlueprintReadWrite, meta=(AllowPrivateAccess="true"))
 	FVector MoveableAreaMin;
-
 	UPROPERTY(BlueprintReadWrite, meta=(AllowPrivateAccess="true"))
 	FVector MoveableAreaMax;
-
 	UPROPERTY()
 	float Speed;
+	UPROPERTY()
+	bool bIsMoveable = true;
 
 	// Interaction
 	UPROPERTY()
 	TObjectPtr<class AInteractable> Interaction;
-
 	UPROPERTY()
 	TArray<class AInteractable*> Interactables;
 };

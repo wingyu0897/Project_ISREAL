@@ -19,14 +19,14 @@ public:
 	virtual ~AInteractable() {}
 
 public:
-	virtual void Interact() {}
+	virtual void Interact(AActor* InteractActor) {}
 
 	UFUNCTION()
 	virtual void ShowWidget();
 	UFUNCTION()
 	virtual void HideWidget();
 
-private:
+protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Sphere, meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UStaticMeshComponent> Cube;
 
@@ -36,4 +36,6 @@ private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Sphere, meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<class UWidgetComponent> InteractableWidget;
 
+	UPROPERTY()
+	bool bIsInteracting = false;
 };

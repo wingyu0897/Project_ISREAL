@@ -25,29 +25,33 @@ AInteractable::AInteractable()
 	Sphere->SetupAttachment(RootComponent);
 	Sphere->SetCollisionProfileName(FName(TEXT("OverlapAllDynamic")));
 	Sphere->SetGenerateOverlapEvents(true);
-	Sphere->SetRelativeScale3D(FVector(9.f, 9.f, 9.f));
+	Sphere->SetRelativeScale3D(FVector(1.f, 1.f, 1.f));
+	Sphere->InitSphereRadius(140.f);
 	Sphere->SetRelativeLocation(FVector(0.f, 0.f, 0.f));
 	
 	// Widget
 	InteractableWidget = CreateDefaultSubobject<UWidgetComponent>(TEXT("Interactable"));
 	InteractableWidget->SetupAttachment(Sphere);
+	InteractableWidget->SetRelativeLocation(FVector(0.f, 0.f, 100.f));
+	InteractableWidget->SetWidgetSpace(EWidgetSpace::Screen);
+	InteractableWidget->SetVisibility(false);
+
 	ConstructorHelpers::FClassFinder<UUserWidget> WidgetRef = TEXT("/Game/GGMFishing/UI/InteractionWidget.InteractionWidget_C");
 	if (WidgetRef.Class != nullptr)
 	{
 		InteractableWidget->SetWidgetClass(WidgetRef.Class);
 	}
-	InteractableWidget->SetRelativeLocation(FVector(0.f, 0.f, 10.f));
-	InteractableWidget->SetWidgetSpace(EWidgetSpace::Screen);
-	InteractableWidget->SetVisibility(false);
 }
 
 void AInteractable::ShowWidget()
 {
+	bIsInteracting = true;
 	InteractableWidget->SetVisibility(true);
 }
 
 void AInteractable::HideWidget()
 {
+	bIsInteracting = false;
 	InteractableWidget->SetVisibility(false);
 }
 
