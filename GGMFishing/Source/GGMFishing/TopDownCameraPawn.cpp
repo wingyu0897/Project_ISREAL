@@ -112,6 +112,8 @@ void ATopDownCameraPawn::MoveCameraAttach(USceneComponent* InParent)
 	}
 	else
 	{
+		FAttachmentTransformRules AttachmentRules = FAttachmentTransformRules(EAttachmentRule::SnapToTarget, EAttachmentRule::SnapToTarget, EAttachmentRule::SnapToTarget, true);
+		TopDownCamera->AttachToComponent(CameraBoom, AttachmentRules, USpringArmComponent::SocketName);
 		TopDownCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName);
 	}
 }

@@ -70,9 +70,11 @@ private:
 	bool bIsCatching = false;
 
 	UPROPERTY()
+	float TargetLerpValue = 0.f;
+	UPROPERTY()
 	float TargetSliderValue = 0.f;
 	UPROPERTY()
-	float FishSliderValue = 0.f;
+	float FishLerpValue = 0.f;
 	UPROPERTY()
 	float FishSliderTargetValue = 0.f;
 	UPROPERTY()

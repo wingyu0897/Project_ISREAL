@@ -87,7 +87,7 @@ void AFishingRod::Interact(AActor* InteractActor)
 
 	if (bIsCatching)
 	{
-		TargetSliderValue = FMath::Clamp(TargetSliderValue + 0.1f, 0.f, 1.f);
+		TargetSliderValue = FMath::Clamp(TargetLerpValue + 0.1f, 0.f, 1.f);
 		return;
 	}
 
@@ -176,8 +176,9 @@ void AFishingRod::TryCatch()
 
 	bIsCatching = true;
 	Progress = 0.5f;
+	TargetLerpValue = 0.f;
 	TargetSliderValue = 0.f;
-	FishSliderValue = FMath::RandRange(0.f, 1.f);
+	FishLerpValue = FMath::RandRange(0.f, 1.f);
 
 	SetFishSliderValue();
 
@@ -187,10 +188,12 @@ void AFishingRod::TryCatch()
 
 void AFishingRod::Catching(float DeltaTime)
 {
-	FishSliderValue = FMath::Lerp(FishSliderValue, FishSliderTargetValue, 0.1f);
-	TargetSliderValue = FMath::Clamp(TargetSliderValue - DeltaTime * 0.2f, 0.f, 1.f);
+	FishLerpValue = FMath::Lerp(FishLerpValue, FishSliderTargetValue, 0.1f);
 
-	if (FMath::Abs(FishSliderValue - TargetSliderValue) < 0.1f)
+	TargetSliderValue = FMath::Clamp(TargetSliderValue - DeltaTime * 0.2f, 0.f, 1.f);
+	TargetLerpValue = FMath::Lerp(TargetLerpValue, TargetSliderValue, 0.2f);
+
+	if (FMath::Abs(FishLerpValue - TargetLerpValue) < 0.1f)
 	{
 		Progress = FMath::Clamp(Progress + DeltaTime * 0.1f, 0.f, 1.f);
 		if (Progress >= 1.f)
@@ -208,8 +211,8 @@ void AFishingRod::Catching(float DeltaTime)
 	}
 
 	FishingWidget->UpdateProgressBar(Progress);
-	FishingWidget->UpdateSliderFish(FishSliderValue);
-	FishingWidget->UpdateSliderTarget(TargetSliderValue);
+	FishingWidget->UpdateSliderFish(FishLerpValue);
+	FishingWidget->UpdateSliderTarget(TargetLerpValue);
 }
 
 void AFishingRod::Catch()
